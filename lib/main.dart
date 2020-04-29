@@ -18,7 +18,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: MyHomePage(title: 'Flutter Demo Home Page'),
+      home: HomePage(),
     );
   }
 }
@@ -86,7 +86,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
                       print(res.length);
 
-                      Navigator.push(context, MaterialPageRoute(builder: (c)=>HomePage(res)));
+                      Navigator.push(context, MaterialPageRoute(builder: (c)=>HomePage()));
 
                     },
                     color: Colors.greenAccent,

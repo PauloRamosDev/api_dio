@@ -1,17 +1,41 @@
 import 'dart:convert';
-import 'dart:io';
 
 import 'package:dio/dio.dart';
+import 'package:path/path.dart' as path;
 
 class Api {
   static BaseOptions options = new BaseOptions(
-    baseUrl: "http://solutionapp.ddns.net:9000/",
+    baseUrl: "http://192.168.1.24:8080/",
     connectTimeout: 10000,
   );
 
   Dio _dio = Dio(options);
 
   Dio get request => _dio;
+
+  uploadFile(pathFile) async {
+    FormData formData = FormData.fromMap({
+      'file': await MultipartFile.fromFile(pathFile,
+          filename: path.basename(pathFile))
+    });
+
+    var response = await _dio.post(
+      "/upload",
+      data: formData,
+      onSendProgress: (count, total) {
+        var up = 0;
+
+        up += count;
+
+        print(
+            'UPLOAD UP: ${(up / 1000) / 1000} MB TOTAL: ${(total / 1000) / 1000} MB');
+      },
+    );
+
+    print(response.toString());
+
+    return response;
+  }
 
   funcionarios() async {
     return await request.get('/');
